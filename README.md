@@ -1,51 +1,171 @@
-
-````markdown
-# AWS CLI & API Project Documentation
-
-## Overview
-
-This project documents my understanding and practical experience using the **AWS CLI**, interacting with **AWS APIs**, and **authenticating to AWS services via the terminal**. It is intended to demonstrate basic proficiency in programmatically managing AWS resources using command-line tools.
+Certainly! Here's your updated `README.md` with `./imgs/` as the path and each image on its own line:
 
 ---
 
-## 🔧 AWS CLI Setup
+# 🚀 Mini Project: Setting Up Secure Authentication to AWS API
 
-To begin, I installed and configured the AWS CLI on my local machine.
+## 📌 Objective
 
-### Installation (Ubuntu)
+To securely access AWS services from the terminal using the AWS CLI, we configure IAM roles, policies, and users to enable programmatic access via AWS APIs. This project demonstrates a foundational understanding of secure authentication to AWS APIs.
+
+---
+
+## 🛠️ Steps Followed
+
+### 1. **Create an IAM Role**
+
+Created a role named `automationRole` with a trust policy allowing a specific user (`automation_user`) to assume the role.
+
+**Trust Policy:**
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::<ACCOUNT_ID>:user/automation_user"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+```
+
+---
+
+### 2. **Create an IAM Policy**
+
+Policy granting full access to EC2 and S3 resources.
+
+**IAM Policy JSON:**
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:*",
+        "s3:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+---
+
+### 3. **Create an IAM User**
+
+Created an IAM user named `automation_user`.
+
+---
+
+### 4. **Assign the User to the Role**
+
+Using the trust relationship in the role to allow `automation_user` to assume it.
+
+---
+
+### 5. **Attach Policy to User**
+
+Attached the above policy to `automation_user` for full access to EC2 and S3.
+
+**Additionally:**
+Attached an inline policy to allow the user to assume the role:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws:iam::<ACCOUNT_ID>:role/automationRole"
+    }
+  ]
+}
+```
+
+---
+
+### 6. **Create Programmatic Access Credentials**
+
+Generated an **Access Key ID** and **Secret Access Key** for `automation_user`.
+
+Stored securely in:
+
 ```bash
-sudo apt update
-sudo apt install awscli -y
-````
+~/.aws/credentials
+```
 
-### Configuration
+---
+
+### 7. **Configure AWS CLI**
 
 ```bash
 aws configure
 ```
 
-**Prompted values:**
-
-* AWS Access Key ID: `****************ABCD`
-* AWS Secret Access Key: `****************1234`
-* Default region: `us-east-1`
-* Output format: `json`
+* Access Key ID
+* Secret Access Key
+* Region (e.g., `us-east-1`)
+* Output Format (e.g., `json`)
 
 ---
 
+### 8. **Test Authentication via Terminal**
+
+```bash
+aws sts get-caller-identity
+```
+
+Expected Output:
+
+```json
+{
+  "UserId": "AIDxxxxxxxxxxxxx",
+  "Account": "123456789012",
+  "Arn": "arn:aws:iam::123456789012:user/automation_user"
+}
+```
 
 
-## ✅ Summary
-
-This project helped me:
-
-* Understand AWS CLI configuration and authentication.
-* Practice making API requests from the terminal.
-* Gain confidence in managing AWS infrastructure without using the console.
 
 ---
 
+## 📷 Screenshots
 
+```markdown
+![alt text](./imgs/api-1.png)  
+![alt text](./imgs/api-2.png)  
+![alt text](./imgs/api-3.png)  
+![alt text](./imgs/api-4.png)  
+![alt text](./imgs/api-5.png)  
+![alt text](./imgs/api-6.png)  
+![alt text](./imgs/api-7.png)  
+![alt text](./imgs/api-8.png)  
+![alt text](./imgs/api-9.png)  
+![alt text](./imgs/api-10.png)  
+![alt text](./imgs/api-11.png)  
+![alt text](./imgs/api-12.png)  
+![alt text](./imgs/api-13.png)  
+![alt text](./imgs/api-14.png)  
+![alt text](./imgs/api-15.png)  
+![alt text](./imgs/api-16.png)  
+![alt text](./imgs/api-17.png)  
+![alt text](./imgs/api-18.png)  
+![alt text](./imgs/api-19.png)  
+![alt text](./imgs/api.png)  
+```
 
-## screen shot
-![all](./imgs/api.png)
+---
+
+## ✍️ Reflection
+
+Setting up secure AWS API access through the CLI ensures safer and more manageable cloud operations, especially when automating infrastructure provisioning. Understanding IAM policies, roles, trust relationships, and programmatic credentials is foundational for DevOps and cloud professionals.
+
