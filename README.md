@@ -25,7 +25,7 @@ Created a role named `automationRole` with a trust policy allowing a specific us
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::<ACCOUNT_ID>:user/automation_user"
+        "AWS": "arn:aws:iam::257394481038:user/automation_user"
       },
       "Action": "sts:AssumeRole"
     }
@@ -85,7 +85,7 @@ Attached an inline policy to allow the user to assume the role:
     {
       "Effect": "Allow",
       "Action": "sts:AssumeRole",
-      "Resource": "arn:aws:iam::<ACCOUNT_ID>:role/automationRole"
+      "Resource": "arn:aws:iam::257394481038:user/automation_user"
     }
   ]
 }
